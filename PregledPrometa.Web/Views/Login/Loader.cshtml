@@ -1,0 +1,100 @@
+﻿
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500">
+    <link rel="stylesheet" href="~/Content/bootstrap.min.css">
+    <link rel="stylesheet" href="~/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="~/Content/loginForm/css/form-elements.css">
+    <link rel="stylesheet" href="~/Content/loginForm/css/style.css">
+    <link href="~/Content/Images/favicon.ico" rel="icon" type="image/x-icon" />
+
+    <link href="~/Content/loader.css" rel="stylesheet" />
+
+    <title>ELBS Promet</title>
+</head>
+
+    <body  style="margin:0;">
+
+        @*<div id="loader" style="background-color:#fdfdfd;"></div>*@
+
+        <div style="display:block;" id="myDiv" class="animate-bottom">
+
+            <div class="top-content">
+                <div class="inner-bg">
+                    <div class="container">
+
+                        <div class="row">
+                            <div class="col-sm-6 col-sm-offset-3 form-box">
+                                <div class="form-top">
+                                    <div class="form-top-left">
+                                        <h3><strong>Elbraco group</strong> Pregled MP prometa</h3>
+                                        <p>Upiši korisničko ime i lozinku</p>
+                                    </div>
+                                    @*<div class="form-top-right">
+                                        <i class="fa fa-key"></i>
+                                    </div>*@
+                                    <div class="form-top-right">
+                                        <img src="~/Content/Images/logo-elbraco67x67.png" alt="elbsImg" />
+                                    </div>
+                                </div>
+                                <div class="form-bottom">
+                                    @using (Html.BeginForm("Checkuser", "Login", FormMethod.Post, new { @class = "login-form" }))
+                                    {
+                                        @Html.AntiForgeryToken();
+
+                                        <div class="form-group">
+                                            <label class="sr-only">Korisnik</label>
+                                            <input type="text" name="txtUser" placeholder="Korisnik..." class="form-password form-control" />
+
+                                            <label class="sr-only">Lozinka</label>
+                                            <input type="password" name="txtPwd" placeholder="Lozinka..." class="form-password form-control" />
+
+                                        </div>
+                                        <button type="submit" class="btn">Prijavi me!</button>
+                                    }
+
+
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End forma za logovanje -->
+
+                    </div>
+                </div>
+            </div>
+            <!-- End login form -->
+
+        </div>
+
+        <script>
+            var myVar;
+
+            function myFunction() {
+                myVar = setTimeout(showPage, 300);
+            }
+
+            function showPage() {
+                document.getElementById("loader").style.display = "none";
+                document.getElementById("myDiv").style.display = "block";
+            }
+        </script>
+        <!-- Javascript -->
+        <script src="~/Content/loginForm/js/jquery-1.11.1.min.js"></script>
+        <script src="~/Scripts/bootstrap.min.js"></script>
+        @*<script src="~/Content/loginForm/js/jquery.backstretch.min.js"></script>*@
+        <script src="~/Content/loginForm/js/scripts.js"></script>
+
+    </body>
+
+</html>

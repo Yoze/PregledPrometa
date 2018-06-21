@@ -1,0 +1,146 @@
+﻿
+
+@using PregledPrometa.Web.Models
+
+@model PregledPrometa.Web.Models.DPViewModel
+
+@section Scripts{
+    
+    <!-- Data tables -->
+    <link href="~/Content/DataTables/css/dataTables.bootstrap.min.css" rel="stylesheet" />
+    
+    <script src="~/Scripts/DataTables/jquery.dataTables.min.js" type="text/javascript"></script>
+    <script src="~/Scripts/DataTables/dataTables.bootstrap.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#stavkePrometaTabela').DataTable({
+
+                responsive: true,
+                iDisplayLength: -1,
+
+                "columnDefs": [
+                { "targets": 0, "orderable": true },
+                { "targets": 1, "orderable": false },
+                { "targets": 2, "orderable": false },
+                { "targets": 3, "orderable": false },
+                { "targets": 4, "orderable": true },
+                { "targets": 5, "orderable": false },
+                { "targets": 6, "orderable": false },
+                { "targets": 7, "orderable": false },
+                { "targets": 8, "orderable": false }
+                ],
+
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/1.10.13/i18n/Serbian.json"
+                },
+
+                "bPaginate": false
+                //"bInfo": false,
+
+            });
+        });
+        
+    </script>
+
+    }
+
+<div class="row">
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 style="color: #ff0000">
+                <span style="color:#89817b"> Stavke prometa  </span> <br /> <br />
+                <strong>@ViewBag.dateFrom @ViewBag.PM</strong>
+                @if (ViewBag.dateTO != "")
+                {
+                    <strong> - @ViewBag.dateTO</strong>
+                }
+            </h4>
+        </div>
+        <!-- end panel heading -->
+
+        <div class="panel-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="stavkePrometaTabela">
+                    <thead>
+                        <tr>
+                            <th style="font-size: 0.8em; padding:4px 4px;">Vreme</th>
+                            <th style="font-size: 0.8em; padding:4px 4px;">FI</th>
+                            <th style="font-size: 0.8em; padding:4px 4px;">Kasir</th>
+                            @*<th>Barcode</th>*@
+                            <th style="font-size: 0.8em; padding:4px 4px;">Artikal</th>
+                            <th style="font-size: 0.8em; padding:4px 4px;">Naziv</th>
+                            <th style="font-size: 0.8em; padding:4px 4px;">Cena</th>
+                            <th style="font-size: 0.8em; padding:4px 4px;">Količina</th>
+                            <th style="font-size: 0.8em; padding:4px 4px;">Iznos</th>
+                            <th style="font-size: 0.8em; padding:4px 4px;">RUC</th>
+                            <th style="font-size: 0.8em; padding:4px 4px;">%</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @{
+                            decimal? totalIZNOS = 0;
+                            double? totalUKRUC = 0;
+                            int? totalSTAVKI = 0;
+                        }
+
+                        @foreach (var item in DPViewModel.DnevniStavkeFormatted)
+                        {
+                            totalIZNOS += item.IZNOS;
+                            totalUKRUC += item.UKRUC;
+                            totalSTAVKI++;
+
+                            <tr>
+                                <td style="text-align: left; font-size: 0.8em; padding:4px 4px;">@String.Format("{0:HH:mm:ss}", item.VremeRegular)</td>
+                                <td style="text-align: center; font-size: 0.8em; padding:4px 4px;">@item.BROJFI</td>
+                                <td style="text-align: left; font-size: 0.7em; padding:4px 4px;">@item.Operater</td>
+                                @*<td style="text-align: left; font-size: 0.8em; padding:4px 4px;">@item.BARCODE</td>*@
+                                <td style="text-align: left; font-size: 0.8em; padding:4px 4px;">@item.SifraArtikla</td>
+                                <td style="text-align: left; font-size: 0.8em; padding:4px 4px;">@item.NazivArtikla</td>
+                                <td style="font-size: 0.8em; padding:4px 4px;">@String.Format("{0:0,0.00}", item.CENAM)</td>
+                                <td style="text-align: center; font-size: 0.8em; padding:4px 4px;">@item.KOLICINA</td>
+                                <td style="font-size: 0.8em; padding:4px 4px;">@String.Format("{0:0,0.00}", item.IZNOS)</td>
+                                <td style="font-size: 0.8em; padding:4px 4px;">@String.Format("{0:0,0.00}", item.UKRUC)</td>
+                                <td style="font-size: 0.8em; padding:4px 4px;">@String.Format("{0:0,0.00}", item.RucProcentualno)</td>
+                            </tr>
+                        }
+                    </tbody>
+
+                </table>
+            </div>
+            <div class="well well-sm">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <table class="table table-responsive">
+                            <thead>
+                                <tr>
+                                    <td style="text-align: left; font-size: 0.8em; padding:4px 4px;"><strong>IZNOS</strong></td>
+                                    <td style="text-align: left; font-size: 0.8em; padding:4px 4px;"><strong>RUC</strong></td>
+                                    <td style="text-align: left; font-size: 0.8em; padding:4px 4px;"><strong>STAVKE</strong></td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="text-align: left; color: #ff0000; font-size: 0.8em; padding:4px 4px;"><strong>@String.Format("{0:0,0.00}", totalIZNOS)</strong></td>
+                                    <td style="text-align: left; color: #ff0000; font-size: 0.8em; padding:4px 4px;"><strong>@String.Format("{0:0,0.00}", totalUKRUC)</strong></td>
+                                    <td style="text-align: left; color: #ff0000; font-size: 0.8em; padding:4px 4px;"><strong>@String.Format("{0:0,0}", totalSTAVKI)</strong></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>               
+
+            </div>
+
+        </div>
+        <!-- end panel body-->
+        <div class="panel-footer">
+            @*<a href="@Url.Action("Dnevni", "Promet")" class="btn btn-default">Početna</a>*@
+            <a class="btn btn-default" onclick="history.go(-1); return false;" href="#">Nazad</a>
+        </div>
+    </div>
+
+</div>
+
