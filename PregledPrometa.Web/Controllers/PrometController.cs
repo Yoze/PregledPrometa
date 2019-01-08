@@ -55,34 +55,29 @@ namespace PregledPrometa.Web.Controllers
                     // TO DO
                 }
 
-
-
                 Repository r = new Repository();
 
                 r.GetDnevniPrometList(DPViewModel.PodaciOperatera);
 
 
                 // datumi za prethodne godine
-                //2016
-                DateTime _datumFiltera2016 = new DateTime();
-                _datumFiltera2016 = r.ClarionToDate(DPViewModel.clDateFrom);
-                _datumFiltera2016 = _datumFiltera2016.AddYears(-2);
-                ViewBag.dateFrom2016 = string.Format("{0:dd.MM.yyyy}", _datumFiltera2016);
-                ViewBag.dateTo2016 = "";
-
-
-                // 2017
+                //2017
                 DateTime _datumFiltera2017 = new DateTime();
                 _datumFiltera2017 = r.ClarionToDate(DPViewModel.clDateFrom);
-                _datumFiltera2017 = _datumFiltera2017.AddYears(-1);
+                _datumFiltera2017 = _datumFiltera2017.AddYears(-2);
                 ViewBag.dateFrom2017 = string.Format("{0:dd.MM.yyyy}", _datumFiltera2017);
                 ViewBag.dateTo2017 = "";
 
+                // 2018
+                DateTime _datumFiltera2018 = new DateTime();
+                _datumFiltera2018 = r.ClarionToDate(DPViewModel.clDateFrom);
+                _datumFiltera2018 = _datumFiltera2018.AddYears(-1);
+                ViewBag.dateFrom2018 = string.Format("{0:dd.MM.yyyy}", _datumFiltera2018);
+                ViewBag.dateTo2018 = "";
 
-                // Tekući datum
+                // Tekuća godina
                 ViewBag.dateFrom = string.Format("{0:dd.MM.yyyy}", r.ClarionToDate(DPViewModel.clDateFrom));
                 ViewBag.dateTO = "";
-
 
 
                 return View("_PrometPartial");
@@ -91,50 +86,6 @@ namespace PregledPrometa.Web.Controllers
             {
                 return RedirectToAction("Loader", "Login");
             }
-            
-
-            //if (!string.IsNullOrEmpty(dateFrom))
-            //{
-            //    DateTime _dateFrom = DateTime.ParseExact(dateFrom, "dd.MM.yyyy", CultureInfo.InvariantCulture);
-            //    DPViewModel vm = new DPViewModel(_dateFrom);                
-                
-            //}
-            //else
-            //{
-            //    // TO DO
-            //}
-
-
-
-            //Repository r = new Repository();
-
-            //r.GetDnevniPrometList(DPViewModel.PodaciOperatera);
-
-
-            //// datumi za prethodne godine
-            ////2016
-            //DateTime _datumFiltera2016 = new DateTime();
-            //_datumFiltera2016 = r.ClarionToDate(DPViewModel.clDateFrom);
-            //_datumFiltera2016 = _datumFiltera2016.AddYears(-2);
-            //ViewBag.dateFrom2016 = string.Format("{0:dd.MM.yyyy}", _datumFiltera2016);
-            //ViewBag.dateTo2016 = "";
-
-
-            //// 2017
-            //DateTime _datumFiltera2017 = new DateTime();
-            //_datumFiltera2017 = r.ClarionToDate(DPViewModel.clDateFrom);
-            //_datumFiltera2017 = _datumFiltera2017.AddYears(-1);
-            //ViewBag.dateFrom2017 = string.Format("{0:dd.MM.yyyy}", _datumFiltera2017);
-            //ViewBag.dateTo2017 = "";
-
-
-            //// Tekući datum
-            //ViewBag.dateFrom = string.Format("{0:dd.MM.yyyy}", r.ClarionToDate(DPViewModel.clDateFrom));
-            //ViewBag.dateTO = "";
-
-
-
-            //return View("_PrometPartial");
         }
 
 
@@ -175,35 +126,6 @@ namespace PregledPrometa.Web.Controllers
                 return View("_PrometDetaljPartial");
             }
             else return RedirectToAction("Loader", "Login");
-
-            //Repository r = new Repository();
-            //DPViewModel vm = new DPViewModel();
-            //vm.DateFrom = r.ClarionToDate(idatum);
-
-            //r.GetDnevniPrometStavke(shpro, idatum);
-
-            //switch (shpro)
-            //{
-            //    case "001":
-            //        ViewBag.PM = "SOMBOR";
-            //        break;
-            //    case "002":
-            //        ViewBag.PM = "APATIN";
-            //        break;
-            //    case "003":
-            //        ViewBag.PM = "ODŽACI";
-            //        break;
-            //    case "004":
-            //        ViewBag.PM = "KULA";
-            //        break;
-            //    case "005":
-            //        ViewBag.PM = "B.PALANKA";
-            //        break;
-            //}
-
-            //ViewBag.dateFrom = string.Format("{0:dd.MM.yyyy}", r.ClarionToDate(idatum));
-            //ViewBag.dateTO = "";
-            //return View("_PrometDetaljPartial");
         }
 
 
@@ -225,16 +147,6 @@ namespace PregledPrometa.Web.Controllers
                 return View(new DPViewModel());
             }
             else return RedirectToAction("Loader", "Login");
-
-            //DateTime dateNow = DateTime.Now.Date;
-            ////DateTime dateFrom = dateNow.AddDays(-7); // poslednjih 7 dana
-            //DateTime dateFrom = new DateTime(dateNow.Year, dateNow.Month, 1); // prvi u mesecu, datum početka filtera
-
-            //ViewBag.dateFrom = string.Format("{0:dd.MM.yyyy}", dateFrom);
-            //ViewBag.dateTo = string.Format("{0:dd.MM.yyyy}", dateNow);
-
-
-            //return View(new DPViewModel());
         }
 
 
@@ -278,32 +190,32 @@ namespace PregledPrometa.Web.Controllers
 
 
                 // datumi za prethodne godine
-                // 2016
-                DateTime dateFrom2016 = new DateTime();
-                dateFrom2016 = r.ClarionToDate(DPViewModel.clDateFrom);
-                dateFrom2016 = dateFrom2016.AddYears(-2);
-
-                DateTime dateTo2016 = new DateTime();
-                dateTo2016 = r.ClarionToDate(DPViewModel.clDateTo);
-                dateTo2016 = dateTo2016.AddYears(-2);
-
                 // 2017
                 DateTime dateFrom2017 = new DateTime();
                 dateFrom2017 = r.ClarionToDate(DPViewModel.clDateFrom);
-                dateFrom2017 = dateFrom2017.AddYears(-1);
+                dateFrom2017 = dateFrom2017.AddYears(-2);
 
                 DateTime dateTo2017 = new DateTime();
                 dateTo2017 = r.ClarionToDate(DPViewModel.clDateTo);
-                dateTo2017 = dateTo2017.AddYears(-1);
+                dateTo2017 = dateTo2017.AddYears(-2);
 
+                // 2018
+                DateTime dateFrom2018 = new DateTime();
+                dateFrom2018 = r.ClarionToDate(DPViewModel.clDateFrom);
+                dateFrom2018 = dateFrom2018.AddYears(-1);
 
-                // 2016
-                ViewBag.dateFrom2016 = string.Format("{0:dd.MM.yyyy}", dateFrom2016);
-                ViewBag.dateTo2016 = string.Format("{0:dd.MM.yyyy}", dateTo2016);
+                DateTime dateTo2018 = new DateTime();
+                dateTo2018 = r.ClarionToDate(DPViewModel.clDateTo);
+                dateTo2018 = dateTo2018.AddYears(-1);
+
 
                 // 2017
                 ViewBag.dateFrom2017 = string.Format("{0:dd.MM.yyyy}", dateFrom2017);
                 ViewBag.dateTo2017 = string.Format("{0:dd.MM.yyyy}", dateTo2017);
+
+                // 2018
+                ViewBag.dateFrom2018 = string.Format("{0:dd.MM.yyyy}", dateFrom2018);
+                ViewBag.dateTo2018 = string.Format("{0:dd.MM.yyyy}", dateTo2018);
 
                 // Tekuća godina
                 ViewBag.dateFrom = string.Format("{0:dd.MM.yyyy}", r.ClarionToDate(DPViewModel.clDateFrom));
@@ -313,78 +225,7 @@ namespace PregledPrometa.Web.Controllers
             else return RedirectToAction("Loader", "Login");
 
 
-
-
-            //DateTime _dateFrom = new DateTime();
-            //DateTime _dateTo = new DateTime();
-
-            //if (!string.IsNullOrEmpty(dateFrom))
-            //{
-            //    _dateFrom = DateTime.ParseExact(dateFrom, "dd.MM.yyyy", CultureInfo.InvariantCulture);               
-            //}
-            //else
-            //{
-            //    // TO DO
-            //}
-
-
-            //if (!string.IsNullOrEmpty(dateTo))
-            //{
-            //    _dateTo = DateTime.ParseExact(dateTo, "dd.MM.yyyy", CultureInfo.InvariantCulture); 
-            //}
-            //else
-            //{
-            //    // TO DO
-            //}
-
-
-            //DPViewModel vm = new DPViewModel(_dateFrom, _dateTo);
-
-            //Repository r = new Repository();
-            //r.GetPrometPoPerioduList(DPViewModel.PodaciOperatera);
-
-
-
-            //// datumi za prethodne godine
-            //// 2016
-            //DateTime dateFrom2016 = new DateTime();
-            //dateFrom2016 = r.ClarionToDate(DPViewModel.clDateFrom);
-            //dateFrom2016 = dateFrom2016.AddYears(-2);
-
-            //DateTime dateTo2016 = new DateTime();
-            //dateTo2016 = r.ClarionToDate(DPViewModel.clDateTo);
-            //dateTo2016 = dateTo2016.AddYears(-2);
-
-            //// 2017
-            //DateTime dateFrom2017 = new DateTime();
-            //dateFrom2017 = r.ClarionToDate(DPViewModel.clDateFrom);
-            //dateFrom2017 = dateFrom2017.AddYears(-1);
-
-            //DateTime dateTo2017 = new DateTime();
-            //dateTo2017 = r.ClarionToDate(DPViewModel.clDateTo);
-            //dateTo2017 = dateTo2017.AddYears(-1);
-
-
-            //// 2016
-            //ViewBag.dateFrom2016 = string.Format("{0:dd.MM.yyyy}", dateFrom2016);
-            //ViewBag.dateTo2016 = string.Format("{0:dd.MM.yyyy}", dateTo2016);
-
-            //// 2017
-            //ViewBag.dateFrom2017 = string.Format("{0:dd.MM.yyyy}", dateFrom2017);
-            //ViewBag.dateTo2017 = string.Format("{0:dd.MM.yyyy}", dateTo2017);
-
-            //// Tekuća godina
-            //ViewBag.dateFrom = string.Format("{0:dd.MM.yyyy}", r.ClarionToDate(DPViewModel.clDateFrom));
-            //ViewBag.dateTO = string.Format("{0:dd.MM.yyyy}", r.ClarionToDate(DPViewModel.clDateTo));
-            //return View("_PrometPartial");
         }
-
-
-
-
-
-
-
-
+                                   
     }
 }

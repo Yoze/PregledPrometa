@@ -543,9 +543,9 @@
     <Compile Include="Models\DPViewModel.cs" />
     <Compile Include="Models\LoginHelper.cs" />
     <Compile Include="Models\PregledDnevnogPrometaContext.cs" />
-    <Compile Include="Models\PregledPrometaContext2018.cs" />
-    <Compile Include="Models\PregledPrometaContext2016.cs" />
+    <Compile Include="Models\PregledPrometaContext2019.cs" />
     <Compile Include="Models\PregledPrometaContext2017.cs" />
+    <Compile Include="Models\PregledPrometaContext2018.cs" />
     <Compile Include="Models\Repository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">

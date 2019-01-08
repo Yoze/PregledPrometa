@@ -15,7 +15,8 @@
             </h4>
         </div>
         <!-- end panel heading -->
-        <!-- 2 0 1 8 -->
+
+        <!-- TEKUĆA GODINA -->
         <div class="panel-body">
             <div style="color:red; font-size:1.2em; font-weight:600;">
                 <strong>@ViewBag.dateFrom</strong>
@@ -24,7 +25,7 @@
                     <strong> - @ViewBag.dateTO</strong>
                 }
             </div>
-            @if (DPViewModel.DnevniPrometWithRUC2018.Count == 0)
+            @if (DPViewModel.DnevniPrometWithRUC2019.Count == 0)
             {
                 <div style="border-color: red; border-style: solid; border-width:thin;">
                     <h4 style="color: red; text-align:center;">Nema podataka!</h4>
@@ -60,7 +61,7 @@
                                 double? totalRUC = 0;
                                 double? totalRUCProc = 0;
                             }
-                            @foreach (var item in DPViewModel.DnevniPrometWithRUC2018)
+                            @foreach (var item in DPViewModel.DnevniPrometWithRUC2019)
                             {
                                 totalIZNOS += item.UKIZNOS;
                                 totalFI += item.UKFI;
@@ -148,6 +149,144 @@
 
 
 
+            <!-- 2 0 1 8 -->
+            <div style="color:dodgerblue; font-size:1.2em; font-weight:600;">
+
+                <strong>@ViewBag.dateFrom2018</strong>
+                @if (ViewBag.dateTo2018 != "")
+                {
+                    <strong> - @ViewBag.dateTo2018</strong>
+                }
+            </div>
+            @if (DPViewModel.DnevniPrometWithRUC2018.Count == 0)
+            {
+                <div style="border-color: dodgerblue; border-style: solid; border-width:thin;">
+                    <h4 style="color: dodgerblue; text-align:center;">Nema podataka!</h4>
+                </div>
+            }
+            else
+            {
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Detalj</th>
+                                <th>Prodavnica</th>
+                                <th>Ukupan promet</th>
+                                <th>Broj FI</th>
+                                <th>Stavke</th>
+                                <th>Artikli</th>
+                                @*<th>Naplaćeno</th>
+                                    <th>Preko računa</th>*@
+                                <th>RUC</th>
+                                <th>%</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            @{
+                                int? totalFI2018 = 0;
+                                int? totalSTAVKI2018 = 0;
+                                double? totalKOL2018 = 0;
+                                double? totalIZNOS2018 = 0;
+                                //double? totalKES = 0;
+                                //double? totalVIRMAN = 0;
+                                double? totalRUC2018 = 0;
+                                double? totalRUCProc2018 = 0;
+                            }
+                            @foreach (var item in DPViewModel.DnevniPrometWithRUC2018)
+                            {
+                                totalIZNOS2018 += item.UKIZNOS;
+                                totalFI2018 += item.UKFI;
+                                totalSTAVKI2018 += item.UKSTAVKI;
+                                totalKOL2018 += item.UKKOLICINA;
+                                //totalKES2018 += item.UKKES;
+                                //totalVIRMAN2018 += item.UKVIRMAN;
+                                totalRUC2018 += item.UKRUC;
+                                totalRUCProc2018 += item.RUCProc;
+
+                                <tr class="text-right">
+                                    @if (ViewBag.dateTO.Equals(""))
+                                    {
+                                        @*<td style="text-align: center">
+                                                @Html.ActionLink(
+                                                         linkText: " ",
+                                                         actionName: "DnevniStavke",
+                                                         controllerName: "Promet",
+                                                         routeValues: new
+                                                         {
+                                                             shpro = item.SHPRO,
+                                                             idatum = item.DATUM
+                                                         },
+                                                         htmlAttributes: new { @class = "btn btn-sm btn-danger" })
+                                            </td>*@
+
+                                        <td style="text-align: center"><span class="fa fa-ban"></span></td>
+                                    }
+                                    else
+                                    {
+                                        <td style="text-align: center"><span class="fa fa-ban"></span></td>
+                                    }
+                                    <!-- Ispis naziva prodavnice -->
+                                    @switch (item.SHPRO)
+                                    {
+                                        case "001":
+                                            <td style="text-align:left">Sombor</td>
+                                            break;
+                                        case "002":
+                                            <td style="text-align:left">Apatin</td>
+                                            break;
+                                        case "003":
+                                            <td style="text-align:left">Odžaci</td>
+                                            break;
+                                        case "004":
+                                            <td style="text-align:left">Kula</td>
+                                            break;
+                                        case "005":
+                                            <td style="text-align:left">B.Palanka</td>
+                                            break;
+                                    }
+
+                                    <td>@String.Format("{0:0,0.00}", item.UKIZNOS)</td>
+                                    <td>@item.UKFI</td>
+                                    <td>@item.UKSTAVKI</td>
+                                    <td>@item.UKKOLICINA</td>
+                                    @*<td>@String.Format("{0:0,0.00}", item.UKKES)</td>
+                                        <td>@String.Format("{0:0,0.00}", item.UKVIRMAN)</td>*@
+                                    <td>@String.Format("{0:0,0.00}", item.UKRUC)</td>
+                                    <td>@String.Format("{0:0,0.00}", item.RUCProc)</td>
+                                </tr>
+                            }
+                        </tbody>
+
+                        <tfoot>
+                            <tr class="text-right" style="color:dodgerblue">
+                                @{
+                                    double? rucProc2018 = (totalRUC2018 / totalIZNOS2018) * 100;
+                                }
+
+                                <td colspan="2"></td>
+                                @*<td></td>*@
+                                <td><strong>@String.Format("{0:0,0.00}", totalIZNOS2018)</strong></td>
+                                <td><strong>@totalFI2018</strong></td>
+                                <td><strong>@totalSTAVKI2018</strong></td>
+                                <td><strong>@totalKOL2018</strong></td>
+                                @*<td><strong>@String.Format("{0:0,0.00}", totalKES2017)</strong></td>
+                                    <td><strong>@String.Format("{0:0,0.00}", totalVIRMAN2017)</strong></td>*@
+                                <td><strong>@String.Format("{0:0,0.00}", totalRUC2018)</strong></td>
+                                <td><strong>@String.Format("{0:0,0.00}", rucProc2018)</strong></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            }
+
+
+
+
+
+
+
             <!-- 2 0 1 7 -->
             <div style="color:dodgerblue; font-size:1.2em; font-weight:600;">
 
@@ -188,8 +327,8 @@
                                 int? totalSTAVKI2017 = 0;
                                 double? totalKOL2017 = 0;
                                 double? totalIZNOS2017 = 0;
-                                //double? totalKES = 0;
-                                //double? totalVIRMAN = 0;
+                                //double? totalKES2017 = 0;
+                                //double? totalVIRMAN2017 = 0;
                                 double? totalRUC2017 = 0;
                                 double? totalRUCProc2017 = 0;
                             }
@@ -270,148 +409,10 @@
                                 <td><strong>@totalFI2017</strong></td>
                                 <td><strong>@totalSTAVKI2017</strong></td>
                                 <td><strong>@totalKOL2017</strong></td>
-                                @*<td><strong>@String.Format("{0:0,0.00}", totalKES2017)</strong></td>
-                                    <td><strong>@String.Format("{0:0,0.00}", totalVIRMAN2017)</strong></td>*@
-                                <td><strong>@String.Format("{0:0,0.00}", totalRUC2017)</strong></td>
-                                <td><strong>@String.Format("{0:0,0.00}", rucProc2017)</strong></td>
-                            </tr>
-                        </tfoot>
-                    </table>
-                </div>
-            }
-
-
-
-
-
-
-
-            <!-- 2 0 1 6 -->
-            <div style="color:dodgerblue; font-size:1.2em; font-weight:600;">
-
-                <strong>@ViewBag.dateFrom2016</strong>
-                @if (ViewBag.dateTo2016 != "")
-                {
-                    <strong> - @ViewBag.dateTo2016</strong>
-                }
-            </div>
-            @if (DPViewModel.DnevniPrometWithRUC2016.Count == 0)
-            {
-                <div style="border-color: dodgerblue; border-style: solid; border-width:thin;">
-                    <h4 style="color: dodgerblue; text-align:center;">Nema podataka!</h4>
-                </div>
-            }
-            else
-            {
-                <div class="table-responsive">
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th>Detalj</th>
-                                <th>Prodavnica</th>
-                                <th>Ukupan promet</th>
-                                <th>Broj FI</th>
-                                <th>Stavke</th>
-                                <th>Artikli</th>
-                                @*<th>Naplaćeno</th>
-                                    <th>Preko računa</th>*@
-                                <th>RUC</th>
-                                <th>%</th>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-                            @{
-                                int? totalFI2016 = 0;
-                                int? totalSTAVKI2016 = 0;
-                                double? totalKOL2016 = 0;
-                                double? totalIZNOS2016 = 0;
-                                //double? totalKES2016 = 0;
-                                //double? totalVIRMAN2016 = 0;
-                                double? totalRUC2016 = 0;
-                                double? totalRUCProc2016 = 0;
-                            }
-                            @foreach (var item in DPViewModel.DnevniPrometWithRUC2016)
-                            {
-                                totalIZNOS2016 += item.UKIZNOS;
-                                totalFI2016 += item.UKFI;
-                                totalSTAVKI2016 += item.UKSTAVKI;
-                                totalKOL2016 += item.UKKOLICINA;
-                                //totalKES2016 += item.UKKES;
-                                //totalVIRMAN2016 += item.UKVIRMAN;
-                                totalRUC2016 += item.UKRUC;
-                                totalRUCProc2016 += item.RUCProc;
-
-                                <tr class="text-right">
-                                    @if (ViewBag.dateTO.Equals(""))
-                                    {
-                                        @*<td style="text-align: center">
-                                                @Html.ActionLink(
-                                                         linkText: " ",
-                                                         actionName: "DnevniStavke",
-                                                         controllerName: "Promet",
-                                                         routeValues: new
-                                                         {
-                                                             shpro = item.SHPRO,
-                                                             idatum = item.DATUM
-                                                         },
-                                                         htmlAttributes: new { @class = "btn btn-sm btn-danger" })
-                                            </td>*@
-
-                                        <td style="text-align: center"><span class="fa fa-ban"></span></td>
-                                    }
-                                    else
-                                    {
-                                        <td style="text-align: center"><span class="fa fa-ban"></span></td>
-                                    }
-                                    <!-- Ispis naziva prodavnice -->
-                                    @switch (item.SHPRO)
-                                    {
-                                        case "001":
-                                            <td style="text-align:left">Sombor</td>
-                                            break;
-                                        case "002":
-                                            <td style="text-align:left">Apatin</td>
-                                            break;
-                                        case "003":
-                                            <td style="text-align:left">Odžaci</td>
-                                            break;
-                                        case "004":
-                                            <td style="text-align:left">Kula</td>
-                                            break;
-                                        case "005":
-                                            <td style="text-align:left">B.Palanka</td>
-                                            break;
-                                    }
-
-                                    <td>@String.Format("{0:0,0.00}", item.UKIZNOS)</td>
-                                    <td>@item.UKFI</td>
-                                    <td>@item.UKSTAVKI</td>
-                                    <td>@item.UKKOLICINA</td>
-                                    @*<td>@String.Format("{0:0,0.00}", item.UKKES)</td>
-                                        <td>@String.Format("{0:0,0.00}", item.UKVIRMAN)</td>*@
-                                    <td>@String.Format("{0:0,0.00}", item.UKRUC)</td>
-                                    <td>@String.Format("{0:0,0.00}", item.RUCProc)</td>
-                                </tr>
-                            }
-                        </tbody>
-
-                        <tfoot>
-                            <tr class="text-right" style="color:dodgerblue">
-                                @{
-                                    double? rucProc2016 = (totalRUC2016 / totalIZNOS2016) * 100;
-                                }
-
-                                <td colspan="2"></td>
-                                @*<td></td>*@
-                                <td><strong>@String.Format("{0:0,0.00}", totalIZNOS2016)</strong></td>
-                                <td><strong>@totalFI2016</strong></td>
-                                <td><strong>@totalSTAVKI2016</strong></td>
-                                <td><strong>@totalKOL2016</strong></td>
                                 @*<td><strong>@String.Format("{0:0,0.00}", totalKES2016)</strong></td>
                                     <td><strong>@String.Format("{0:0,0.00}", totalVIRMAN2016)</strong></td>*@
-                                <td><strong>@String.Format("{0:0,0.00}", totalRUC2016)</strong></td>
-                                <td><strong>@String.Format("{0:0,0.00}", rucProc2016)</strong></td>
+                                <td><strong>@String.Format("{0:0,0.00}", totalRUC2017)</strong></td>
+                                <td><strong>@String.Format("{0:0,0.00}", rucProc2017)</strong></td>
                             </tr>
                         </tfoot>
                     </table>

@@ -18,12 +18,12 @@ namespace PregledPrometa.Web.Models
         private List<DNEVNIPROMETM> PregledPrometaList { get; set; }
 
         // nasleđen DNEVNIPROMETM sa dodatim poljem ukruc zbog računanja ruc-a
-        //2016
-        public static List<DnevniPrometWruc> DnevniPrometWithRUC2016 { get; set; }
         //2017
         public static List<DnevniPrometWruc> DnevniPrometWithRUC2017 { get; set; }
         //2018
         public static List<DnevniPrometWruc> DnevniPrometWithRUC2018 { get; set; }
+        //2019
+        public static List<DnevniPrometWruc> DnevniPrometWithRUC2019 { get; set; }
 
 
         // pogled DNEVNIPROMETzaWEBApp na serveru objedinjuje podatke za prikaz stavki u dn. pregledu.

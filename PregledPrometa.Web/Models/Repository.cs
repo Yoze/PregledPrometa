@@ -37,174 +37,28 @@ namespace PregledPrometa.Web.Models
 
         }
 
-        //// generiše prikaz za navedeni broj godina unazad npr. 3 će prikazati tekuću godinu + dve prethodne godine
-        //int prikaziGodinaUnazad = 3;
-
-
-        // D N E V N I
-        // Pregled dnevnog prometa po radnjama
-
-
-
-
-
-        //public void GetDnevniPrometZaSvaProdajnaMesta(string godina)
-        //{
-
-        //    int tekucaGodina = DateTime.Now.Year;
-
-
-
-        //    // konekcioni string prema ELBS bazi, uzima se iz WebConnString.config
-        //    string webConnStringConfigName = "name=PregledPrometaConn" + godina;
-
-        //    GetDnevniPrometZaProdajnoMesto("001", tekucaGodina);
-
-
-        //    //using (PregledDnevnogPrometaContext db = new PregledDnevnogPrometaContext(webConnStringConfigName))
-        //    //{
-        //    //    List<DNEVNIPROMETM> dnevniPromet = new List<DNEVNIPROMETM>();
-
-        //    //    dnevniPromet = db.DNEVNIPROMETM.ToList();
-        //    //}
-
-
-
-
-
-        //}
-
-
-
-        //private void GetDnevniPrometZaProdajnoMesto(string shpro, int godina)
-        //{
-        //    string webConnStringConfigName = "name=PregledPrometaConn" + godina;
-
-        //    using (PregledDnevnogPrometaContext db = new PregledDnevnogPrometaContext(webConnStringConfigName))
-        //    {
-        //        List<DNEVNIPROMETM> dnevniPromet = new List<DNEVNIPROMETM>();
-
-        //        dnevniPromet = db.DNEVNIPROMETM.ToList();
-        //    }
-
-
-
-        //    using (PregledPrometaContext2016 db = new PregledPrometaContext2016())
-        //    {
-        //        List<DNEVNIPROMETM> tempList2016 = new List<DNEVNIPROMETM>();
-
-        //        // clarion datum filtera za dnevni promet minus 2 god
-        //        DateTime _datumFiltera = new DateTime();
-        //        _datumFiltera = ClarionToDate(DPViewModel.clDateFrom);
-        //        _datumFiltera = _datumFiltera.AddYears(-2);
-
-        //        int clDate2016MinusYear = DateToClarion(_datumFiltera);
-
-
-
-
-        //        tempList2016 = db.DNEVNIPROMETM
-        //            .Where(p => p.DATUM.Equals(clDate2016MinusYear))
-        //            .Where(x => x.SHPRO == shpro)
-        //            .OrderBy(c => c.SHPRO)
-        //            .ToList();
-
-        //        List<DNEVNIPROMETM> tempList2016OrderBySHPRO = new List<DNEVNIPROMETM>();
-        //        tempList2016OrderBySHPRO = tempList2016.OrderBy(x => x.SHPRO).ToList();
-
-        //        DPViewModel.DnevniPrometWithRUC2016 = tempList2016OrderBySHPRO
-        //         .Select(i => new DnevniPrometWruc()
-        //         {
-        //             SHPRO = i.SHPRO,
-        //             DATUM = i.DATUM,
-        //             UKFI = i.UKFI,
-        //             UKIZNOS = i.UKIZNOS,
-        //             UKKES = i.UKKES,
-        //             UKVIRMAN = i.UKVIRMAN,
-        //             UKSTAVKI = i.UKSTAVKI,
-        //             UKKOLICINA = i.UKKOLICINA,
-        //             UKRUC = i.UKRUC,
-        //             RUCProc = (double)(((i.UKRUC) / (i.UKIZNOS)) * 100),
-        //         }).ToList();
-        //    }
-        //}
-
+       
 
 
 
         public void GetDnevniPrometList(List<string> podaciOperatera)
-        {
-            
-
-
-            /** 2 0 1 6 */
-            using (PregledPrometaContext2016 db = new PregledPrometaContext2016())
+        {        
+                       
+            /** 2 0 1 7 */
+            using (PregledPrometaContext2017 db = new PregledPrometaContext2017())
             {
-                List<DNEVNIPROMETM> tempList2016 = new List<DNEVNIPROMETM>();
+                List<DNEVNIPROMETM> tempList2017 = new List<DNEVNIPROMETM>();
 
                 // clarion datum filtera za dnevni promet minus 2 god
                 DateTime _datumFiltera = new DateTime();
                 _datumFiltera = ClarionToDate(DPViewModel.clDateFrom);
                 _datumFiltera = _datumFiltera.AddYears(-2);
 
-                int clDate2016MinusYear = DateToClarion(_datumFiltera);
-
-
-                // filtrira prikaz svih prodavnica za korisnika 'elbraco' ili prikaz samo prodavnice za ulogovanog korisnika
-                if (podaciOperatera[2].Equals("elbraco")) // <== throw exception  here !!!
-                {
-                    tempList2016 = db.DNEVNIPROMETM
-                    .Where(p => p.DATUM.Equals(clDate2016MinusYear))
-                    .OrderBy(c => c.SHPRO)
-                    .ToList();
-                }
-                else
-                {
-                    string shpro = podaciOperatera[0];
-
-                    tempList2016 = db.DNEVNIPROMETM
-                   .Where(p => p.DATUM.Equals(clDate2016MinusYear))
-                   .Where(x => x.SHPRO == shpro)
-                   .OrderBy(c => c.SHPRO)
-                   .ToList();
-                }
-               
-
-                List<DNEVNIPROMETM> tempList2016OrderBySHPRO = new List<DNEVNIPROMETM>();
-                tempList2016OrderBySHPRO = tempList2016.OrderBy(x => x.SHPRO).ToList();
-
-                DPViewModel.DnevniPrometWithRUC2016 = tempList2016OrderBySHPRO
-                 .Select(i => new DnevniPrometWruc()
-                 {
-                     SHPRO = i.SHPRO,
-                     DATUM = i.DATUM,
-                     UKFI = i.UKFI,
-                     UKIZNOS = i.UKIZNOS,
-                     UKKES = i.UKKES,
-                     UKVIRMAN = i.UKVIRMAN,
-                     UKSTAVKI = i.UKSTAVKI,
-                     UKKOLICINA = i.UKKOLICINA,
-                     UKRUC = i.UKRUC,
-                     RUCProc = (double)(((i.UKRUC) / (i.UKIZNOS)) * 100),
-                 }).ToList();
-            }
-
-
-            /** 2 0 1 7 */
-            using (PregledPrometaContext2017 db = new PregledPrometaContext2017())
-            {
-                List<DNEVNIPROMETM> tempList2017 = new List<DNEVNIPROMETM>();
-
-                // clarion datum filtera za dnevni promet minus 1 god
-                DateTime _datumFiltera = new DateTime();
-                _datumFiltera = ClarionToDate(DPViewModel.clDateFrom);
-                _datumFiltera = _datumFiltera.AddYears(-1);
-
                 int clDate2017MinusYear = DateToClarion(_datumFiltera);
 
 
                 // filtrira prikaz svih prodavnica za korisnika 'elbraco' ili prikaz samo prodavnice za ulogovanog korisnika
-                if (podaciOperatera[2].Equals("elbraco"))
+                if (podaciOperatera[2].Equals("elbraco")) // <== throw exception  here !!!
                 {
                     tempList2017 = db.DNEVNIPROMETM
                     .Where(p => p.DATUM.Equals(clDate2017MinusYear))
@@ -221,12 +75,10 @@ namespace PregledPrometa.Web.Models
                    .OrderBy(c => c.SHPRO)
                    .ToList();
                 }
-
-
+               
 
                 List<DNEVNIPROMETM> tempList2017OrderBySHPRO = new List<DNEVNIPROMETM>();
                 tempList2017OrderBySHPRO = tempList2017.OrderBy(x => x.SHPRO).ToList();
-
 
                 DPViewModel.DnevniPrometWithRUC2017 = tempList2017OrderBySHPRO
                  .Select(i => new DnevniPrometWruc()
@@ -242,11 +94,7 @@ namespace PregledPrometa.Web.Models
                      UKRUC = i.UKRUC,
                      RUCProc = (double)(((i.UKRUC) / (i.UKIZNOS)) * 100),
                  }).ToList();
-
-
             }
-
-
 
 
             /** 2 0 1 8 */
@@ -254,18 +102,19 @@ namespace PregledPrometa.Web.Models
             {
                 List<DNEVNIPROMETM> tempList2018 = new List<DNEVNIPROMETM>();
 
-                //tempList2018 = db.DNEVNIPROMETM
-                //    .Where(p => p.DATUM.Equals(DPViewModel.clDateFrom))
-                //    .OrderBy(c => c.SHPRO)
-                //    .ToList();
+                // clarion datum filtera za dnevni promet minus 1 god
+                DateTime _datumFiltera = new DateTime();
+                _datumFiltera = ClarionToDate(DPViewModel.clDateFrom);
+                _datumFiltera = _datumFiltera.AddYears(-1);
 
+                int clDate2018MinusYear = DateToClarion(_datumFiltera);
 
 
                 // filtrira prikaz svih prodavnica za korisnika 'elbraco' ili prikaz samo prodavnice za ulogovanog korisnika
                 if (podaciOperatera[2].Equals("elbraco"))
                 {
                     tempList2018 = db.DNEVNIPROMETM
-                    .Where(p => p.DATUM.Equals(DPViewModel.clDateFrom))
+                    .Where(p => p.DATUM.Equals(clDate2018MinusYear))
                     .OrderBy(c => c.SHPRO)
                     .ToList();
                 }
@@ -274,12 +123,11 @@ namespace PregledPrometa.Web.Models
                     string shpro = podaciOperatera[0];
 
                     tempList2018 = db.DNEVNIPROMETM
-                   .Where(p => p.DATUM.Equals(DPViewModel.clDateFrom))
+                   .Where(p => p.DATUM.Equals(clDate2018MinusYear))
                    .Where(x => x.SHPRO == shpro)
                    .OrderBy(c => c.SHPRO)
                    .ToList();
                 }
-
 
 
 
@@ -303,6 +151,54 @@ namespace PregledPrometa.Web.Models
                  }).ToList();
             }
 
+
+            /** T E K U Ć A   G O D I N A */
+            using (PregledPrometaContext2019 db = new PregledPrometaContext2019())
+            {
+                List<DNEVNIPROMETM> tempListTekucaGodina = new List<DNEVNIPROMETM>();
+
+                //tempList2018 = db.DNEVNIPROMETM
+                //    .Where(p => p.DATUM.Equals(DPViewModel.clDateFrom))
+                //    .OrderBy(c => c.SHPRO)
+                //    .ToList();
+
+                // filtrira prikaz svih prodavnica za korisnika 'elbraco' ili prikaz samo prodavnice za ulogovanog korisnika
+                if (podaciOperatera[2].Equals("elbraco"))
+                {
+                    tempListTekucaGodina = db.DNEVNIPROMETM
+                    .Where(p => p.DATUM.Equals(DPViewModel.clDateFrom))
+                    .OrderBy(c => c.SHPRO)
+                    .ToList();
+                }
+                else
+                {
+                    string shpro = podaciOperatera[0];
+
+                    tempListTekucaGodina = db.DNEVNIPROMETM
+                   .Where(p => p.DATUM.Equals(DPViewModel.clDateFrom))
+                   .Where(x => x.SHPRO == shpro)
+                   .OrderBy(c => c.SHPRO)
+                   .ToList();
+                }
+
+                List<DNEVNIPROMETM> tempListTekucaGodinaOrderBySHPRO = new List<DNEVNIPROMETM>();
+                tempListTekucaGodinaOrderBySHPRO = tempListTekucaGodina.OrderBy(x => x.SHPRO).ToList();
+
+                DPViewModel.DnevniPrometWithRUC2019 = tempListTekucaGodinaOrderBySHPRO
+                 .Select(i => new DnevniPrometWruc()
+                 {
+                     SHPRO = i.SHPRO,
+                     DATUM = i.DATUM,
+                     UKFI = i.UKFI,
+                     UKIZNOS = i.UKIZNOS,
+                     UKKES = i.UKKES,
+                     UKVIRMAN = i.UKVIRMAN,
+                     UKSTAVKI = i.UKSTAVKI,
+                     UKKOLICINA = i.UKKOLICINA,
+                     UKRUC = i.UKRUC,
+                     RUCProc = (double)(((i.UKRUC) / (i.UKIZNOS)) * 100),
+                 }).ToList();
+            }
         }
 
 
@@ -310,7 +206,7 @@ namespace PregledPrometa.Web.Models
         public void GetDnevniPrometStavke(string shpro, int idatum)
         {
 
-            using (PregledPrometaContext2018 db = new PregledPrometaContext2018())
+            using (PregledPrometaContext2019 db = new PregledPrometaContext2019())
             {
                 List<DNEVNIPROMETzaWEBApp> tempListStavkePrometa = new List<DNEVNIPROMETzaWEBApp>();
 
@@ -320,7 +216,6 @@ namespace PregledPrometa.Web.Models
                     .ToList();
 
                 // tempList.OrderBy(p => p.VREME2);
-
 
                 DPViewModel.DnevniStavkeFormatted = tempListStavkePrometa
                     .Select(i => new DnevniStavkePrometaFormatZaView()
@@ -349,10 +244,10 @@ namespace PregledPrometa.Web.Models
         // Pregled prometa po radnjama za zadati period
         public void GetPrometPoPerioduList(List<string> podaciOperatera)
         {
-            // 2 0 1 6
-            using (PregledPrometaContext2016 db = new PregledPrometaContext2016())
+            // 2 0 1 7
+            using (PregledPrometaContext2017 db = new PregledPrometaContext2017())
             {
-                List<DNEVNIPROMETM> tempList2016 = new List<DNEVNIPROMETM>();
+                List<DNEVNIPROMETM> tempList2017 = new List<DNEVNIPROMETM>();
 
                 // početni datum
                 DateTime _dateFromMinusYEAR = new DateTime();
@@ -372,80 +267,6 @@ namespace PregledPrometa.Web.Models
                     dateToMinusYEAR = 78590;
                 }
 
-
-
-
-                // provera ulogovanog korisnika, ako je 'elbraco' prikazju se sve prodavnice. u suprotnom samo prodavnica za ulogovanog korisnika
-                if (podaciOperatera[2].Equals("elbraco"))
-                {
-                    tempList2016 = db.DNEVNIPROMETM
-                   .Where(p => p.DATUM >= dateFromMinusYEAR && p.DATUM <= dateToMinusYEAR)
-                   .ToList();
-                }
-                else
-                {
-                    string shpro = podaciOperatera[0];
-
-                    tempList2016 = db.DNEVNIPROMETM
-                    .Where(p => p.DATUM >= dateFromMinusYEAR && p.DATUM <= dateToMinusYEAR && p.SHPRO == shpro)
-                    .ToList();
-                }
-
-                               
-
-                List<DNEVNIPROMETM> tempList2016OrderBySHPRO = new List<DNEVNIPROMETM>();
-                tempList2016OrderBySHPRO = tempList2016.OrderBy(x => x.SHPRO).ToList();
-
-
-                // grupisanje po prodavnicama i agregacija podataka
-                DPViewModel.DnevniPrometWithRUC2016 = tempList2016OrderBySHPRO
-                 .GroupBy(l => l.SHPRO)
-                 .Select(i => new DnevniPrometWruc()
-                 {
-                     SHPRO = i.First().SHPRO,
-                     UKFI = i.Sum(c => c.UKFI),
-                     UKIZNOS = i.Sum(c => c.UKIZNOS),
-                     UKKES = i.Sum(c => c.UKKES),
-                     UKVIRMAN = i.Sum(c => c.UKVIRMAN),
-                     UKSTAVKI = i.Sum(c => c.UKSTAVKI),
-                     UKKOLICINA = i.Sum(c => c.UKKOLICINA),
-                     UKRUC = i.Sum(c => c.UKRUC),
-                     RUCProc = (double)(((i.Sum(j => j.UKRUC) / (i.Sum(d => d.UKIZNOS)) * 100))),
-                 }).ToList();
-            }
-
-
-
-            // 2 0 1 7
-            using (PregledPrometaContext2017 db = new PregledPrometaContext2017())
-            {
-                List<DNEVNIPROMETM> tempList2017 = new List<DNEVNIPROMETM>();
-
-                // početni datum
-                DateTime _dateFromMinusYEAR = new DateTime();
-                _dateFromMinusYEAR = ClarionToDate(DPViewModel.clDateFrom);
-                _dateFromMinusYEAR = _dateFromMinusYEAR.AddYears(-1);
-                int dateFromMinusYEAR = DateToClarion(_dateFromMinusYEAR);
-
-                // krajnji datum
-                DateTime _dateToMinusYEAR = new DateTime();
-                _dateToMinusYEAR = ClarionToDate(DPViewModel.clDateTo);
-                _dateToMinusYEAR = _dateToMinusYEAR.AddYears(-1);
-                int dateToMinusYEAR = DateToClarion(_dateToMinusYEAR);
-
-                //// provera prestupne godine i 29.02. - 78590
-                //if (dateToMinusYEAR == 78589)
-                //{
-                //    dateToMinusYEAR = 78590;
-                //}
-
-
-                //tempList2017 = db.DNEVNIPROMETM
-                //    .Where(p => p.DATUM >= dateFromMinusYEAR && p.DATUM <= dateToMinusYEAR)
-                //    .ToList();
-
-
-
                 // provera ulogovanog korisnika, ako je 'elbraco' prikazju se sve prodavnice. u suprotnom samo prodavnica za ulogovanog korisnika
                 if (podaciOperatera[2].Equals("elbraco"))
                 {
@@ -460,9 +281,7 @@ namespace PregledPrometa.Web.Models
                     tempList2017 = db.DNEVNIPROMETM
                     .Where(p => p.DATUM >= dateFromMinusYEAR && p.DATUM <= dateToMinusYEAR && p.SHPRO == shpro)
                     .ToList();
-                }
-
-
+                }                               
 
                 List<DNEVNIPROMETM> tempList2017OrderBySHPRO = new List<DNEVNIPROMETM>();
                 tempList2017OrderBySHPRO = tempList2017.OrderBy(x => x.SHPRO).ToList();
@@ -492,16 +311,36 @@ namespace PregledPrometa.Web.Models
             {
                 List<DNEVNIPROMETM> tempList2018 = new List<DNEVNIPROMETM>();
 
-                //tempList2018 = db.DNEVNIPROMETM
-                //    .Where(p => p.DATUM >= DPViewModel.clDateFrom && p.DATUM <= DPViewModel.clDateTo)
+                // početni datum
+                DateTime _dateFromMinusYEAR = new DateTime();
+                _dateFromMinusYEAR = ClarionToDate(DPViewModel.clDateFrom);
+                _dateFromMinusYEAR = _dateFromMinusYEAR.AddYears(-1);
+                int dateFromMinusYEAR = DateToClarion(_dateFromMinusYEAR);
+
+                // krajnji datum
+                DateTime _dateToMinusYEAR = new DateTime();
+                _dateToMinusYEAR = ClarionToDate(DPViewModel.clDateTo);
+                _dateToMinusYEAR = _dateToMinusYEAR.AddYears(-1);
+                int dateToMinusYEAR = DateToClarion(_dateToMinusYEAR);
+
+                //// provera prestupne godine i 29.02. - 78590
+                //if (dateToMinusYEAR == 78589)
+                //{
+                //    dateToMinusYEAR = 78590;
+                //}
+
+
+                //tempList2017 = db.DNEVNIPROMETM
+                //    .Where(p => p.DATUM >= dateFromMinusYEAR && p.DATUM <= dateToMinusYEAR)
                 //    .ToList();
+
 
 
                 // provera ulogovanog korisnika, ako je 'elbraco' prikazju se sve prodavnice. u suprotnom samo prodavnica za ulogovanog korisnika
                 if (podaciOperatera[2].Equals("elbraco"))
                 {
                     tempList2018 = db.DNEVNIPROMETM
-                   .Where(p => p.DATUM >= DPViewModel.clDateFrom && p.DATUM <= DPViewModel.clDateTo)
+                   .Where(p => p.DATUM >= dateFromMinusYEAR && p.DATUM <= dateToMinusYEAR)
                    .ToList();
                 }
                 else
@@ -509,11 +348,9 @@ namespace PregledPrometa.Web.Models
                     string shpro = podaciOperatera[0];
 
                     tempList2018 = db.DNEVNIPROMETM
-                    .Where(p => p.DATUM >= DPViewModel.clDateFrom && p.DATUM <= DPViewModel.clDateTo && p.SHPRO == shpro)
+                    .Where(p => p.DATUM >= dateFromMinusYEAR && p.DATUM <= dateToMinusYEAR && p.SHPRO == shpro)
                     .ToList();
                 }
-
-                
 
                 List<DNEVNIPROMETM> tempList2018OrderBySHPRO = new List<DNEVNIPROMETM>();
                 tempList2018OrderBySHPRO = tempList2018.OrderBy(x => x.SHPRO).ToList();
@@ -537,7 +374,51 @@ namespace PregledPrometa.Web.Models
 
 
 
+            // TEKUĆA GODINA
+            using (PregledPrometaContext2019 db = new PregledPrometaContext2019())
+            {
+                List<DNEVNIPROMETM> tempListTekucaGodina = new List<DNEVNIPROMETM>();
 
+                //tempList2018 = db.DNEVNIPROMETM
+                //    .Where(p => p.DATUM >= DPViewModel.clDateFrom && p.DATUM <= DPViewModel.clDateTo)
+                //    .ToList();
+
+
+                // provera ulogovanog korisnika, ako je 'elbraco' prikazju se sve prodavnice. u suprotnom samo prodavnica za ulogovanog korisnika
+                if (podaciOperatera[2].Equals("elbraco"))
+                {
+                    tempListTekucaGodina = db.DNEVNIPROMETM
+                   .Where(p => p.DATUM >= DPViewModel.clDateFrom && p.DATUM <= DPViewModel.clDateTo)
+                   .ToList();
+                }
+                else
+                {
+                    string shpro = podaciOperatera[0];
+
+                    tempListTekucaGodina = db.DNEVNIPROMETM
+                    .Where(p => p.DATUM >= DPViewModel.clDateFrom && p.DATUM <= DPViewModel.clDateTo && p.SHPRO == shpro)
+                    .ToList();
+                }                
+
+                List<DNEVNIPROMETM> tempListTekucaGodinaOrderBySHPRO = new List<DNEVNIPROMETM>();
+                tempListTekucaGodinaOrderBySHPRO = tempListTekucaGodina.OrderBy(x => x.SHPRO).ToList();
+
+                // grupisanje po prodavnicama i agregacija podataka
+                DPViewModel.DnevniPrometWithRUC2019 = tempListTekucaGodinaOrderBySHPRO
+                 .GroupBy(l => l.SHPRO)
+                 .Select(i => new DnevniPrometWruc()
+                 {
+                     SHPRO = i.First().SHPRO,
+                     UKFI = i.Sum(c => c.UKFI),
+                     UKIZNOS = i.Sum(c => c.UKIZNOS),
+                     UKKES = i.Sum(c => c.UKKES),
+                     UKVIRMAN = i.Sum(c => c.UKVIRMAN),
+                     UKSTAVKI = i.Sum(c => c.UKSTAVKI),
+                     UKKOLICINA = i.Sum(c => c.UKKOLICINA),
+                     UKRUC = i.Sum(c => c.UKRUC),
+                     RUCProc = (double)(((i.Sum(j => j.UKRUC) / (i.Sum(d => d.UKIZNOS)) * 100))),
+                 }).ToList();
+            }
         }
 
 
