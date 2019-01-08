@@ -10,6 +10,9 @@ namespace PregledPrometa.Web.Controllers
 {
     public class LoginController : Controller
     {
+
+        private HttpCookie authCookie { get; set; }
+
         // GET: Login
         public ActionResult Loader()
         {
@@ -48,7 +51,7 @@ namespace PregledPrometa.Web.Controllers
                     {
                         DPViewModel.PodaciOperatera = podaciOperatera;
 
-                        
+
 
                         // set authentication cookie
                         FormsAuthentication.SetAuthCookie(txtUser, false);
@@ -56,11 +59,11 @@ namespace PregledPrometa.Web.Controllers
                         string userData = txtUser + ";" + txtPwd;
 
                         // set authorization ticket
-                        var authTicket = new FormsAuthenticationTicket(1, txtUser, DateTime.Now, DateTime.Now.AddDays(7), false, userData);
+                        var authTicket = new FormsAuthenticationTicket(1, txtUser, DateTime.Now, DateTime.Now.AddDays(2), true, userData);
 
                         // encrypt ticket
                         string encryptedTicket = FormsAuthentication.Encrypt(authTicket);
-                        var authCookie = new HttpCookie(FormsAuthentication.FormsCookieName, encryptedTicket);
+                        authCookie = new HttpCookie(FormsAuthentication.FormsCookieName, encryptedTicket);
                         Response.Cookies.Add(authCookie);
 
                         // check authentication
@@ -87,6 +90,8 @@ namespace PregledPrometa.Web.Controllers
         public ActionResult Logout()
         {
             FormsAuthentication.SignOut();
+            Response.Cookies.Remove(".ASPXAUTH");
+
             return RedirectToAction("Loader");
         }
 
